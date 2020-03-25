@@ -1,0 +1,44 @@
+/* Base demo styles */
+body,
+html {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    height: 100%;
+    font-family: Roboto, 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial,
+        'Lucida Grande', sans-serif;
+    color: #444;
+}
+
+header {
+    display: flex;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 10px;
+    box-sizing: border-box;
+    border-bottom: 1px solid gainsboro;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+footer {
+    padding: 16px;
+    font-size: 12px;
+    border-top: 1px solid gainsboro;
+    text-align: center;
+}
+
+a {
+    color: #1976D2;
+    text-decoration: none;
+}
+
+.logo {
+    margin-right: 20px;
+}
