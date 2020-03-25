@@ -12,6 +12,7 @@ describe('IntersectionObserverDirective', () => {
             >
                 <div style="height: 900px;">Height expander</div>
                 <h1
+                    *ngIf="observe"
                     style="position: absolute; top: 200px; height: 200px;"
                     waIntersectionThreshold="0.5"
                     (waIntersectionObserver)="withRoot($event)"
@@ -31,6 +32,7 @@ describe('IntersectionObserverDirective', () => {
     class TestComponent {
         withRoot = jasmine.createSpy('withRoot');
         withSelector = jasmine.createSpy('withSelector');
+        observe = true;
     }
 
     let fixture: ComponentFixture<TestComponent>;
@@ -56,6 +58,8 @@ describe('IntersectionObserverDirective', () => {
         setTimeout(() => {
             expect(testComponent.withRoot).toHaveBeenCalled();
             expect(testComponent.withSelector).toHaveBeenCalled();
+            testComponent.observe = false;
+            fixture.detectChanges();
             done();
         }, 100);
     });
