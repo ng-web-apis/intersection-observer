@@ -48,8 +48,8 @@ binding, only strings. Pass coma separated numbers to set an array of thresholds
 
 ## Service
 
-Alternatively you can use `IntersectionObserverService` and provide tokens `INTERSECTION_ROOT_MARGIN` and
-`INTERSECTION_THRESHOLD` manually:
+Alternatively you can use `Observable`-based `IntersectionObserverService` and provide tokens
+`INTERSECTION_ROOT_MARGIN` and `INTERSECTION_THRESHOLD` manually:
 
 ```typescript
 @Component({
@@ -64,9 +64,9 @@ Alternatively you can use `IntersectionObserverService` and provide tokens `INTE
 })
 export class MyComponent {
     constructor(
-        @Inject(IntersectionObserverService) service: IntersectionObserverService,
+        @Inject(IntersectionObserverService) entries$: IntersectionObserverService,
     ) {
-        service.subscribe(entries => {
+        entries$.subscribe(entries => {
             // This will trigger once my-component becomes half way visible
             // in parent element designated with waIntersectionRoot directive
             console.log(entries);

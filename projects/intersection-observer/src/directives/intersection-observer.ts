@@ -33,8 +33,9 @@ export class IntersectionObserverDirective {
     readonly waIntersectionObserver: Observable<IntersectionObserverEntry[]>;
 
     constructor(
-        @Inject(IntersectionObserverService) service: IntersectionObserverService,
+        @Inject(IntersectionObserverService)
+        entries$: Observable<IntersectionObserverEntry[]>,
     ) {
-        this.waIntersectionObserver = service;
+        this.waIntersectionObserver = entries$;
     }
 }
