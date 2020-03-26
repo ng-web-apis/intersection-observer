@@ -1,5 +1,5 @@
-import {InjectionToken} from '@angular/core';
+import {ElementRef, InjectionToken} from '@angular/core';
 
-export const INTERSECTION_ROOT = new InjectionToken<HTMLElement>(
+export const INTERSECTION_ROOT = new InjectionToken<ElementRef<Element>>(
     'Root element for IntersectionObserver',
 );
