@@ -40,15 +40,42 @@ npm i @ng-web-apis/intersection-observer
 </section>
 ```
 
-Alternatively you can use `waIntersectionRootSelector` attribute
-to pass CSS selector to `waIntersectionObserver` directive to look
-for a root element.
-
 Use `waIntersectionThreshold` and `waIntersectionRootMargin` attributes to configure
 [IntersectionObserver options](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver)
 
 **NOTE:** Keep in mind these are used one time in constructor so you cannot use
 binding, only strings. Pass coma separated numbers to set an array of thresholds.
+
+## Service
+
+Alternatively you can use `Observable`-based `IntersectionObserverService` and provide tokens
+`INTERSECTION_ROOT_MARGIN` and `INTERSECTION_THRESHOLD` manually:
+
+```typescript
+@Component({
+    selector: 'my-component',
+    providers: [
+        IntersectionObserverService,
+        {
+            provide: INTERSECTION_THRESHOLD,
+            useValue: 0.5,
+        },
+    ],
+})
+export class MyComponent {
+    constructor(
+        @Inject(IntersectionObserverService) entries$: IntersectionObserverService,
+    ) {
+        entries$.subscribe(entries => {
+            // This will trigger once my-component becomes half way visible
+            // in parent element designated with waIntersectionRoot directive
+            console.log(entries);
+        });
+    }
+}
+```
+
+> No need to unsubscribe, service extends `Observable` and completes on destroy
 
 ## Browser support
 

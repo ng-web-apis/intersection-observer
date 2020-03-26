@@ -1,53 +1,41 @@
-import {DOCUMENT} from '@angular/common';
-import {
-    Attribute,
-    Directive,
-    ElementRef,
-    EventEmitter,
-    Inject,
-    OnDestroy,
-    Optional,
-    Output,
-} from '@angular/core';
-import {INTERSECTION_ROOT} from '../tokens/intersection-root';
+import {Attribute, Directive, Inject, Output} from '@angular/core';
+import {Observable} from 'rxjs';
+import {IntersectionObserverService} from '../services/intersection-observer.service';
+import {INTERSECTION_ROOT_MARGIN} from '../tokens/intersection-root-margin';
+import {INTERSECTION_THRESHOLD} from '../tokens/intersection-threshold';
 
-const DEFAULT_MARGIN = '0px 0px 0px 0px';
-const DEFAULT_THRESHOLD = 0;
+export function rootMarginFactory(rootMargin: string | null): string | null {
+    return rootMargin;
+}
 
-// @dynamic
+export function thresholdFactory(threshold: string | null): number[] | null {
+    return threshold ? threshold.split(',').map(parseFloat) : null;
+}
+
 @Directive({
     selector: '[waIntersectionObserver]',
+    providers: [
+        IntersectionObserverService,
+        {
+            provide: INTERSECTION_ROOT_MARGIN,
+            deps: [[new Attribute('waIntersectionRootMargin')]],
+            useFactory: rootMarginFactory,
+        },
+        {
+            provide: INTERSECTION_THRESHOLD,
+            deps: [[new Attribute('waIntersectionThreshold')]],
+            useFactory: thresholdFactory,
+        },
+    ],
 })
-export class IntersectionObserverDirective extends IntersectionObserver
-    implements OnDestroy {
+export class IntersectionObserverDirective {
     @Output()
-    readonly waIntersectionObserver = new EventEmitter<IntersectionObserverEntry[]>();
+    readonly waIntersectionObserver: Observable<IntersectionObserverEntry[]>;
 
     constructor(
-        @Inject(ElementRef) private readonly elementRef: ElementRef<HTMLElement>,
-        @Optional() @Inject(INTERSECTION_ROOT) root: HTMLElement | null,
-        @Inject(DOCUMENT) documentRef: Document,
-        @Attribute('waIntersectionRootSelector') selector: string | null,
-        @Attribute('waIntersectionRootMargin') margin: string | null,
-        @Attribute('waIntersectionThreshold') threshold: string | null,
+        @Inject(IntersectionObserverService)
+        entries$: Observable<IntersectionObserverEntry[]>,
     ) {
-        super(
-            entry => {
-                this.waIntersectionObserver.emit(entry);
-            },
-            {
-                root: selector ? documentRef.querySelector(selector) || root : root,
-                rootMargin: margin || DEFAULT_MARGIN,
-                threshold: threshold
-                    ? threshold.split(',').map(value => parseFloat(value))
-                    : DEFAULT_THRESHOLD,
-            },
-        );
-
-        this.observe(this.elementRef.nativeElement);
-    }
-
-    ngOnDestroy() {
-        this.unobserve(this.elementRef.nativeElement);
+        this.waIntersectionObserver = entries$;
     }
 }

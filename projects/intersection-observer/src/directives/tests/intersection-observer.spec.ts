@@ -19,19 +19,18 @@ describe('IntersectionObserverDirective', () => {
                 >
                     I'm being observed
                 </h1>
-                <h1
-                    style="position: absolute; top: 200px; height: 200px;"
-                    waIntersectionRootSelector="#observer_root"
-                    (waIntersectionObserver)="withSelector($event)"
-                >
-                    I'm being observed
-                </h1>
             </section>
+            <h1
+                waIntersectionRootMargin="10px"
+                (waIntersectionObserver)="withoutRoot($event)"
+            >
+                I'm being observed
+            </h1>
         `,
     })
     class TestComponent {
         withRoot = jasmine.createSpy('withRoot');
-        withSelector = jasmine.createSpy('withSelector');
+        withoutRoot = jasmine.createSpy('withoutRoot');
         observe = true;
     }
 
@@ -47,7 +46,6 @@ describe('IntersectionObserverDirective', () => {
         fixture = TestBed.createComponent(TestComponent);
         testComponent = fixture.componentInstance;
         fixture.detectChanges();
-        testComponent.withSelector.calls.reset();
         testComponent.withRoot.calls.reset();
     });
 
@@ -57,7 +55,6 @@ describe('IntersectionObserverDirective', () => {
 
         setTimeout(() => {
             expect(testComponent.withRoot).toHaveBeenCalled();
-            expect(testComponent.withSelector).toHaveBeenCalled();
             testComponent.observe = false;
             fixture.detectChanges();
             done();
