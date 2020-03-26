@@ -9,7 +9,7 @@ export function rootMarginFactory(rootMargin: string | null): string | null {
 }
 
 export function thresholdFactory(threshold: string | null): number[] | null {
-    return threshold ? threshold.split(',').map(value => parseFloat(value)) : null;
+    return threshold ? threshold.split(',').map(parseFloat) : null;
 }
 
 @Directive({
