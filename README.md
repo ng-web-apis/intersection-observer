@@ -69,13 +69,12 @@ export class MyComponent {
         entries$.subscribe(entries => {
             // This will trigger once my-component becomes half way visible
             // in parent element designated with waIntersectionRoot directive
+            // Don't forget to unsubscribe
             console.log(entries);
         });
     }
 }
 ```
-
-> No need to unsubscribe, service extends `Observable` and completes on destroy
 
 ## Browser support
 
