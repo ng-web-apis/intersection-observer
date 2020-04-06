@@ -3,8 +3,8 @@
  */
 
 /* Directives */
-export * from './directives/intersection-observer';
-export * from './directives/intersection-root';
+export * from './directives/intersection-observer.directive';
+export * from './directives/intersection-root.directive';
 
 /* Modules */
 export * from './module';
