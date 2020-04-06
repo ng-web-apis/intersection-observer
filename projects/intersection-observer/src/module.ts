@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
-import {IntersectionObserverDirective} from './directives/intersection-observer';
-import {IntersectionRootDirective} from './directives/intersection-root';
+import {IntersectionObserverDirective} from './directives/intersection-observer.directive';
+import {IntersectionRootDirective} from './directives/intersection-root.directive';
 
 @NgModule({
     declarations: [IntersectionObserverDirective, IntersectionRootDirective],

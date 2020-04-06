@@ -35,6 +35,8 @@ export class IntersectionObserverDirective {
     constructor(
         @Inject(IntersectionObserverService)
         entries$: Observable<IntersectionObserverEntry[]>,
+        @Attribute('waIntersectionRootMargin') _margin: string | null,
+        @Attribute('waIntersectionThreshold') _threshold: string | null,
     ) {
         this.waIntersectionObserver = entries$;
     }
