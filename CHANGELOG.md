@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.2](https://github.com/ng-web-apis/intersection-observer/compare/v1.1.1...v1.1.2) (2020-04-06)
+
+
+### Bug Fixes
+
+* **directive:** add attributes to constructor to make code completion work in IDE ([ec3c25a](https://github.com/ng-web-apis/intersection-observer/commit/ec3c25a))
+
 ### [1.1.1](https://github.com/ng-web-apis/intersection-observer/compare/v1.1.0...v1.1.1) (2020-03-30)
 
 
