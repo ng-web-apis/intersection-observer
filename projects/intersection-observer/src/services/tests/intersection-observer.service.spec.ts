@@ -8,8 +8,8 @@ describe('IntersectionObserverService', () => {
                 nativeElement: document.createElement('DIV'),
             },
             false,
-            null,
-            null,
+            '0px 0px 0px 0px',
+            0,
             null,
         );
 
