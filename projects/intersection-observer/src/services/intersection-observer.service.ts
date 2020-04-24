@@ -11,9 +11,9 @@ export class IntersectionObserverService extends Observable<IntersectionObserver
     constructor(
         @Inject(ElementRef) {nativeElement}: ElementRef<Element>,
         @Inject(INTERSECTION_OBSERVER_SUPPORT) support: boolean,
+        @Inject(INTERSECTION_ROOT_MARGIN) rootMargin: string,
+        @Inject(INTERSECTION_THRESHOLD) threshold: number | number[],
         @Optional() @Inject(INTERSECTION_ROOT) root: ElementRef<Element> | null,
-        @Optional() @Inject(INTERSECTION_ROOT_MARGIN) rootMargin: string | null,
-        @Optional() @Inject(INTERSECTION_THRESHOLD) threshold: number | number[] | null,
     ) {
         let observer: IntersectionObserver;
 
@@ -27,9 +27,9 @@ export class IntersectionObserverService extends Observable<IntersectionObserver
                     subscriber.next(entries);
                 },
                 {
-                    root: root ? root.nativeElement : undefined,
-                    rootMargin: rootMargin ? rootMargin : undefined,
-                    threshold: threshold ? threshold : undefined,
+                    root: root && root.nativeElement,
+                    rootMargin,
+                    threshold,
                 },
             );
             observer.observe(nativeElement);

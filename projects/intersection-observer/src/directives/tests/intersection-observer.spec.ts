@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {IntersectionObserverModule} from '../../module';
+import {INTERSECTION_ROOT_MARGIN} from '../../tokens/intersection-root-margin';
+import {INTERSECTION_THRESHOLD} from '../../tokens/intersection-threshold';
 
 describe('IntersectionObserverDirective', () => {
     @Component({
@@ -59,5 +61,11 @@ describe('IntersectionObserverDirective', () => {
             fixture.detectChanges();
             done();
         }, 100);
+    });
+
+    it('Default options', () => {
+        // https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver
+        expect(TestBed.get(INTERSECTION_ROOT_MARGIN)).toBe('0px 0px 0px 0px');
+        expect(TestBed.get(INTERSECTION_THRESHOLD)).toBe(0);
     });
 });
