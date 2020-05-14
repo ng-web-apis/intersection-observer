@@ -1,51 +1,48 @@
-import {Attribute, Directive, Inject, Output} from '@angular/core';
-import {Observable} from 'rxjs';
-import {IntersectionObserverService} from '../services/intersection-observer.service';
-import {
-    INTERSECTION_ROOT_MARGIN,
-    INTERSECTION_ROOT_MARGIN_DEFAULT,
-} from '../tokens/intersection-root-margin';
-import {
-    INTERSECTION_THRESHOLD,
-    INTERSECTION_THRESHOLD_DEFAULT,
-} from '../tokens/intersection-threshold';
-
-export function rootMarginFactory(rootMargin: string | null): string {
-    return rootMargin || INTERSECTION_ROOT_MARGIN_DEFAULT;
-}
-
-export function thresholdFactory(threshold: string | null): number | number[] {
-    return threshold
-        ? threshold.split(',').map(parseFloat)
-        : INTERSECTION_THRESHOLD_DEFAULT;
-}
+import {Attribute, Directive, ElementRef, Inject, OnDestroy} from '@angular/core';
+import {rootMarginFactory} from '../utils/root-margin-factory';
+import {thresholdFactory} from '../utils/threshold-factory';
 
 @Directive({
     selector: '[waIntersectionObserver]',
-    providers: [
-        IntersectionObserverService,
-        {
-            provide: INTERSECTION_ROOT_MARGIN,
-            deps: [[new Attribute('waIntersectionRootMargin')]],
-            useFactory: rootMarginFactory,
-        },
-        {
-            provide: INTERSECTION_THRESHOLD,
-            deps: [[new Attribute('waIntersectionThreshold')]],
-            useFactory: thresholdFactory,
-        },
-    ],
 })
-export class IntersectionObserverDirective {
-    @Output()
-    readonly waIntersectionObserver: Observable<IntersectionObserverEntry[]>;
+export class IntersectionObserverDirective extends IntersectionObserver
+    implements OnDestroy {
+    private readonly callbacks = new Map<Element, IntersectionObserverCallback>();
 
     constructor(
-        @Inject(IntersectionObserverService)
-        entries$: Observable<IntersectionObserverEntry[]>,
-        @Attribute('waIntersectionRootMargin') _margin: string | null,
-        @Attribute('waIntersectionThreshold') _threshold: string | null,
+        @Inject(ElementRef) {nativeElement}: ElementRef<Element>,
+        @Attribute('waIntersectionRootMargin') rootMargin: string | null,
+        @Attribute('waIntersectionThreshold') threshold: string | null,
     ) {
-        this.waIntersectionObserver = entries$;
+        super(
+            entries => {
+                this.callbacks.forEach((callback, element) => {
+                    const filtered = entries.filter(entrie => entrie.target === element);
+
+                    if (filtered.length) {
+                        callback(filtered, this);
+                    }
+                });
+            },
+            {
+                root: nativeElement,
+                rootMargin: rootMarginFactory(rootMargin),
+                threshold: thresholdFactory(threshold),
+            },
+        );
+    }
+
+    observe(target: Element, callback: IntersectionObserverCallback = () => {}) {
+        super.observe(target);
+        this.callbacks.set(target, callback);
+    }
+
+    unobserve(target: Element) {
+        super.unobserve(target);
+        this.callbacks.delete(target);
+    }
+
+    ngOnDestroy() {
+        this.disconnect();
     }
 }

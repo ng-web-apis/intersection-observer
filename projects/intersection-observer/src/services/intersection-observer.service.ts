@@ -1,6 +1,6 @@
 import {ElementRef, Inject, Injectable, Optional} from '@angular/core';
 import {Observable} from 'rxjs';
-import {finalize, share} from 'rxjs/operators';
+import {share} from 'rxjs/operators';
 import {INTERSECTION_ROOT} from '../tokens/intersection-root';
 import {INTERSECTION_ROOT_MARGIN} from '../tokens/intersection-root-margin';
 import {INTERSECTION_THRESHOLD} from '../tokens/intersection-threshold';
@@ -33,11 +33,12 @@ export class IntersectionObserverService extends Observable<IntersectionObserver
                 },
             );
             observer.observe(nativeElement);
+
+            return () => {
+                observer.disconnect();
+            };
         });
 
-        return this.pipe(
-            finalize(() => observer.disconnect()),
-            share(),
-        );
+        return this.pipe(share());
     }
 }
