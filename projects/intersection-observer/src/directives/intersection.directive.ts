@@ -1,4 +1,4 @@
-import {Attribute, Directive, Inject, Output} from '@angular/core';
+import {Attribute, Directive, Inject} from '@angular/core';
 import {Observable} from 'rxjs';
 import {IntersectionObserverService} from '../services/intersection-observer.service';
 import {INTERSECTION_ROOT_MARGIN} from '../tokens/intersection-root-margin';
@@ -8,6 +8,7 @@ import {thresholdFactory} from '../utils/threshold-factory';
 
 @Directive({
     selector: '[waIntersection]',
+    outputs: ['waIntersection'],
     providers: [
         IntersectionObserverService,
         {
@@ -23,12 +24,9 @@ import {thresholdFactory} from '../utils/threshold-factory';
     ],
 })
 export class IntersectionDirective {
-    @Output()
-    readonly waIntersection = this.entries$;
-
     constructor(
         @Inject(IntersectionObserverService)
-        private readonly entries$: Observable<IntersectionObserverEntry[]>,
+        readonly waIntersection: Observable<IntersectionObserverEntry[]>,
         @Attribute('waIntersectionRootMargin') _margin: string | null,
         @Attribute('waIntersectionThreshold') _threshold: string | null,
     ) {}
