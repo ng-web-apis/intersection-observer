@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/ng-web-apis/intersection-observer/compare/v1.1.3...v2.0.0) (2020-05-15)
+
+
+### Features
+
+* **observer:** Add new directives and service to create single observer and observe multiple elements, rename old directive ([c2de2ff](https://github.com/ng-web-apis/intersection-observer/commit/c2de2ff))
+
 ### [1.1.3](https://github.com/ng-web-apis/intersection-observer/compare/v1.1.2...v1.1.3) (2020-04-24)
 
 -   add default values for tokens and remove @Optional
