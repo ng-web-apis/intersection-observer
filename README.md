@@ -28,28 +28,60 @@ npm i @ng-web-apis/intersection-observer
 
 ## Usage
 
-1. Use `waIntersectionRoot` directive to designate root element
-   for observer.
-2. Use `waIntersectionObserver` directive to observe an element:
+1. Create [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver) with `waIntersectionObserver` directive
+2. Observe elements with `waIntersectionObservee` directive
+3. _Optional:_ provide root element with `waIntersectionRoot` directive and
+   use `waIntersectionThreshold` and `waIntersectionRootMargin` attributes to configure
+   [IntersectionObserver options](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver)
+
+    > **NOTE:** Keep in mind these are used one time in constructor so you cannot use binding, only strings. Pass comma separated numbers to set an array of thresholds..
+
+## Examples
+
+Observing multiple elements intersecting with viewport using single observer
 
 ```html
-<section waIntersectionRoot>
-    <h1 waIntersectionThreshold="0.5" (waIntersectionObserver)="onIntersection($event)">
+<section waIntersectionObserver waIntersectionThreshold="0.5">
+    <div (waIntersectionObservee)="onIntersection($event)">
         I'm being observed
-    </h1>
+    </div>
+    <div (waIntersectionObservee)="onIntersection($event)">
+        I'm being observed
+    </div>
 </section>
 ```
 
-Use `waIntersectionThreshold` and `waIntersectionRootMargin` attributes to configure
-[IntersectionObserver options](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver)
+Observing elements intersecting with parent element,
+each having different configuration therefore using individual observers:
 
-**NOTE:** Keep in mind these are used one time in constructor so you cannot use
-binding, only strings. Pass coma separated numbers to set an array of thresholds.
+```html
+<section waIntersectionRoot>
+    <div
+        waIntersectionObserver
+        waIntersectionThreshold="0.5"
+        (waIntersectionObservee)="onIntersection($event)"
+    >
+        I'm being observed
+    </div>
+    <div
+        waIntersectionObserver
+        waIntersectionThreshold="1,0.5,0"
+        (waIntersectionObservee)="onIntersection($event)"
+    >
+        I'm being observed
+    </div>
+</section>
+```
 
-## Service
+## Services
 
-Alternatively you can use `Observable`-based `IntersectionObserverService` and provide tokens
-`INTERSECTION_ROOT_MARGIN` and `INTERSECTION_THRESHOLD` manually:
+Alternatively you can use `Observable`-based services:
+
+1. `IntersectionObserveeService` can be used to observe elements under `waIntersectionObserver`
+   directive in the DI tree
+
+2. `IntersectionObserverService` can be used to observe single element independently.
+   Provide tokens manually to configure it:
 
 ```typescript
 @Component({
@@ -60,6 +92,10 @@ Alternatively you can use `Observable`-based `IntersectionObserverService` and p
             provide: INTERSECTION_THRESHOLD,
             useValue: 0.5,
         },
+        {
+            provide: INTERSECTION_ROOT_MARGIN,
+            useValue: '10px',
+        },
     ],
 })
 export class MyComponent {
@@ -67,14 +103,15 @@ export class MyComponent {
         @Inject(IntersectionObserverService) entries$: IntersectionObserverService,
     ) {
         entries$.subscribe(entries => {
-            // This will trigger once my-component becomes half way visible
-            // in parent element designated with waIntersectionRoot directive
             // Don't forget to unsubscribe
             console.log(entries);
         });
     }
 }
 ```
+
+> In this case provide `INTERSECTION_ROOT` up the DI tree if you
+> want to observe intersection with a particular parent element
 
 ## Browser support
 

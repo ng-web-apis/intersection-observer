@@ -1,38 +1,45 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {IntersectionObserverModule} from '../../module';
 import {INTERSECTION_ROOT_MARGIN} from '../../tokens/intersection-root-margin';
 import {INTERSECTION_THRESHOLD} from '../../tokens/intersection-threshold';
+import {IntersectionObserverDirective} from '../intersection-observer.directive';
 
-describe('IntersectionObserverDirective', () => {
+describe('IntersectionObserveeDirective', () => {
     @Component({
         template: `
+            <div id="manual_observee">Hello</div>
             <section
+                *ngIf="observe"
+                #root
                 id="observer_root"
                 style="position: relative; height: 200px; overflow: auto;"
+                waIntersectionThreshold="0.5"
+                waIntersectionObserver
                 waIntersectionRoot
             >
                 <div style="height: 900px;">Height expander</div>
                 <h1
-                    *ngIf="observe"
                     style="position: absolute; top: 200px; height: 200px;"
-                    waIntersectionThreshold="0.5"
-                    (waIntersectionObserver)="withRoot($event)"
+                    (waIntersectionObservee)="onIntersection($event)"
                 >
                     I'm being observed
                 </h1>
+                <h1
+                    style="position: absolute; top: 200px; height: 200px;"
+                    waIntersectionObserver
+                    (waIntersectionObservee)="onIntersection($event)"
+                >
+                    Default values
+                </h1>
             </section>
-            <h1
-                waIntersectionRootMargin="10px"
-                (waIntersectionObserver)="withoutRoot($event)"
-            >
-                I'm being observed
-            </h1>
         `,
     })
     class TestComponent {
-        withRoot = jasmine.createSpy('withRoot');
-        withoutRoot = jasmine.createSpy('withoutRoot');
+        @ViewChild('root', {read: IntersectionObserverDirective})
+        observer!: IntersectionObserverDirective;
+
+        onIntersection = jasmine.createSpy('onIntersection');
         observe = true;
     }
 
@@ -48,7 +55,7 @@ describe('IntersectionObserverDirective', () => {
         fixture = TestBed.createComponent(TestComponent);
         testComponent = fixture.componentInstance;
         fixture.detectChanges();
-        testComponent.withRoot.calls.reset();
+        testComponent.onIntersection.calls.reset();
     });
 
     it('Emits intersections', done => {
@@ -56,11 +63,19 @@ describe('IntersectionObserverDirective', () => {
         fixture.detectChanges();
 
         setTimeout(() => {
-            expect(testComponent.withRoot).toHaveBeenCalled();
+            expect(testComponent.onIntersection).toHaveBeenCalled();
+            document.querySelector('#observer_root')!.scrollTop = 0;
+            fixture.detectChanges();
             testComponent.observe = false;
             fixture.detectChanges();
             done();
         }, 100);
+    });
+
+    it('Compatible with native method signature', () => {
+        expect(() =>
+            testComponent.observer.observe(document.querySelector('#manual_observee')!),
+        ).not.toThrow();
     });
 
     it('Default options', () => {
