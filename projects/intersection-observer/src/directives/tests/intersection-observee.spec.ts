@@ -1,6 +1,8 @@
 import {Component, ViewChild} from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {IntersectionObserverModule} from '../../module';
+import {INTERSECTION_ROOT_MARGIN} from '../../tokens/intersection-root-margin';
+import {INTERSECTION_THRESHOLD} from '../../tokens/intersection-threshold';
 import {IntersectionObserverDirective} from '../intersection-observer.directive';
 
 describe('IntersectionObserveeDirective', () => {
@@ -14,19 +16,21 @@ describe('IntersectionObserveeDirective', () => {
                 style="position: relative; height: 200px; overflow: auto;"
                 waIntersectionThreshold="0.5"
                 waIntersectionObserver
+                waIntersectionRoot
             >
-                <h1
-                    style="position: absolute; top: 700px; height: 200px;"
-                    (waIntersectionObservee)="onIntersection($event)"
-                >
-                    I'm being observed
-                </h1>
                 <div style="height: 900px;">Height expander</div>
                 <h1
                     style="position: absolute; top: 200px; height: 200px;"
                     (waIntersectionObservee)="onIntersection($event)"
                 >
                     I'm being observed
+                </h1>
+                <h1
+                    style="position: absolute; top: 200px; height: 200px;"
+                    waIntersectionObserver
+                    (waIntersectionObservee)="onIntersection($event)"
+                >
+                    Default values
                 </h1>
             </section>
         `,
@@ -72,5 +76,11 @@ describe('IntersectionObserveeDirective', () => {
         expect(() =>
             testComponent.observer.observe(document.querySelector('#manual_observee')!),
         ).not.toThrow();
+    });
+
+    it('Default options', () => {
+        // https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver
+        expect(TestBed.get(INTERSECTION_ROOT_MARGIN)).toBe('0px 0px 0px 0px');
+        expect(TestBed.get(INTERSECTION_THRESHOLD)).toBe(0);
     });
 });
