@@ -28,17 +28,35 @@ npm i @ng-web-apis/intersection-observer
 
 ## Usage
 
-1. Use `waIntersectionRoot` directive to designate root element
-   for observer.
-2. Use `waIntersectionObserver` directive to observe an element:
+You can use this library differently for 2 cases:
 
-```html
-<section waIntersectionRoot>
-    <h1 waIntersectionThreshold="0.5" (waIntersectionObserver)="onIntersection($event)">
-        I'm being observed
-    </h1>
-</section>
-```
+1. If you need to observe multiple elements with the same parameters use `waIntersectionObserver` directive
+   to create observer on root element and `waIntersectionObservee` directive on elements that you need to observe:
+
+    ```html
+    <section waIntersectionThreshold="0.5" waIntersectionObserver>
+        <div (waIntersectionObservee)="onIntersection($event)">
+            I'm being observed
+        </div>
+        <div (waIntersectionObservee)="onIntersection($event)">
+            I'm being observed
+        </div>
+    </section>
+    ```
+
+2. If you want to observe multiple elements with different parameters, use `waIntersectionRoot` directive designate root element
+   and `waIntersection` directive to watch intersections of an element:
+
+    ```html
+    <section waIntersectionRoot>
+        <div waIntersectionThreshold="0.5" (waIntersection)="onIntersection($event)">
+            I'm being observed
+        </div>
+        <div waIntersectionThreshold="1,0.5,0" (waIntersection)="onIntersection($event)">
+            I'm being observed
+        </div>
+    </section>
+    ```
 
 Use `waIntersectionThreshold` and `waIntersectionRootMargin` attributes to configure
 [IntersectionObserver options](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver)
@@ -46,10 +64,15 @@ Use `waIntersectionThreshold` and `waIntersectionRootMargin` attributes to confi
 **NOTE:** Keep in mind these are used one time in constructor so you cannot use
 binding, only strings. Pass coma separated numbers to set an array of thresholds.
 
-## Service
+## Services
 
-Alternatively you can use `Observable`-based `IntersectionObserverService` and provide tokens
-`INTERSECTION_ROOT_MARGIN` and `INTERSECTION_THRESHOLD` manually:
+Alternatively you can use `Observable`-based services:
+
+1. `IntersectionObserveeService` can be used to observe elements under `waIntersectionObserver`
+   directive in the DI tree
+
+2. `IntersectionObserverService` can be used to observe single element independently.
+   Provide tokens manually to configure it:
 
 ```typescript
 @Component({

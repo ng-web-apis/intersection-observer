@@ -4,7 +4,7 @@ import {IntersectionObserverModule} from '../../module';
 import {INTERSECTION_ROOT_MARGIN} from '../../tokens/intersection-root-margin';
 import {INTERSECTION_THRESHOLD} from '../../tokens/intersection-threshold';
 
-describe('IntersectionObserverDirective', () => {
+describe('IntersectionDirective', () => {
     @Component({
         template: `
             <section
@@ -17,14 +17,14 @@ describe('IntersectionObserverDirective', () => {
                     *ngIf="observe"
                     style="position: absolute; top: 200px; height: 200px;"
                     waIntersectionThreshold="0.5"
-                    (waIntersectionObserver)="withRoot($event)"
+                    (waIntersection)="withRoot($event)"
                 >
                     I'm being observed
                 </h1>
             </section>
             <h1
                 waIntersectionRootMargin="10px"
-                (waIntersectionObserver)="withoutRoot($event)"
+                (waIntersection)="withoutRoot($event)"
             >
                 I'm being observed
             </h1>
