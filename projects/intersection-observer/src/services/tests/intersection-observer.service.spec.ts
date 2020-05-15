@@ -1,11 +1,13 @@
 import {IntersectionObserverService} from '../intersection-observer.service';
 
 describe('IntersectionObserverService', () => {
-    it('works', () => {
+    it('works', done => {
         let called = false;
+
+        const nativeElement = document.createElement('div');
         const service = new IntersectionObserverService(
             {
-                nativeElement: document.createElement('DIV'),
+                nativeElement,
             },
             true,
             '0px 0px 0px 0px',
@@ -21,7 +23,12 @@ describe('IntersectionObserverService', () => {
             },
         });
 
-        expect(called).toBe(true);
+        document.body.appendChild(nativeElement);
+
+        setTimeout(() => {
+            expect(called).toBe(true);
+            done();
+        });
     });
 
     it('throws when not supported', () => {
