@@ -6,6 +6,7 @@ import {IntersectionObserverDirective} from '../intersection-observer.directive'
 describe('IntersectionObserveeDirective', () => {
     @Component({
         template: `
+            <div id="manual_observee">Hello</div>
             <section
                 *ngIf="observe"
                 #root
@@ -67,22 +68,9 @@ describe('IntersectionObserveeDirective', () => {
         }, 100);
     });
 
-    it('Compatible with native method signature', done => {
-        const div = document.createElement('div');
-
-        document.body.appendChild(div);
-
-        expect(() => testComponent.observer.observe(div)).not.toThrow();
-        document.querySelector('#observer_root')!.scrollTop = 350;
-        fixture.detectChanges();
-
-        setTimeout(() => {
-            expect(testComponent.onIntersection).toHaveBeenCalled();
-            document.querySelector('#observer_root')!.scrollTop = 0;
-            fixture.detectChanges();
-            testComponent.observe = false;
-            fixture.detectChanges();
-            done();
-        }, 100);
+    it('Compatible with native method signature', () => {
+        expect(() =>
+            testComponent.observer.observe(document.querySelector('#manual_observee')!),
+        ).not.toThrow();
     });
 });

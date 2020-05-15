@@ -19,9 +19,7 @@ export class IntersectionObserverDirective extends IntersectionObserver
                 this.callbacks.forEach((callback, element) => {
                     const filtered = entries.filter(entrie => entrie.target === element);
 
-                    if (filtered.length) {
-                        callback(filtered, this);
-                    }
+                    return filtered.length && callback(filtered, this);
                 });
             },
             {
