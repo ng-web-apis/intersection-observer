@@ -28,41 +28,53 @@ npm i @ng-web-apis/intersection-observer
 
 ## Usage
 
-You can use this library differently for 2 cases:
+1. _Optional:_ provide root element with `waIntersectionRoot`.
+2. Create observer with `waIntersectionnObserver` directive
+3. Use `waIntersectionThreshold` and `waIntersectionRootMargin` attributes to configure
+   [IntersectionObserver options](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver)
 
-1. If you need to observe multiple elements with the same parameters use `waIntersectionObserver` directive
-   to create observer on root element and `waIntersectionObservee` directive on elements that you need to observe:
+    > **NOTE:** Keep in mind these are used one time in constructor so you cannot use binding, only strings. Pass coma separated numbers to set an array of thresholds.
 
-    ```html
-    <section waIntersectionThreshold="0.5" waIntersectionObserver>
-        <div (waIntersectionObservee)="onIntersection($event)">
-            I'm being observed
-        </div>
-        <div (waIntersectionObservee)="onIntersection($event)">
-            I'm being observed
-        </div>
-    </section>
-    ```
+4. Observe elements with `waIntersectionObservee` directive
 
-2. If you want to observe multiple elements with different parameters, use `waIntersectionRoot` directive designate root element
-   and `waIntersection` directive to watch intersections of an element:
+> You can put directives on the same element, see examples below
 
-    ```html
-    <section waIntersectionRoot>
-        <div waIntersectionThreshold="0.5" (waIntersection)="onIntersection($event)">
-            I'm being observed
-        </div>
-        <div waIntersectionThreshold="1,0.5,0" (waIntersection)="onIntersection($event)">
-            I'm being observed
-        </div>
-    </section>
-    ```
+## Examples
 
-Use `waIntersectionThreshold` and `waIntersectionRootMargin` attributes to configure
-[IntersectionObserver options](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver)
+Observing multiple elements intersecting with viewport using single observer
 
-**NOTE:** Keep in mind these are used one time in constructor so you cannot use
-binding, only strings. Pass coma separated numbers to set an array of thresholds.
+```html
+<section waIntersectionObserver waIntersectionThreshold="0.5">
+    <div (waIntersectionObservee)="onIntersection($event)">
+        I'm being observed
+    </div>
+    <div (waIntersectionObservee)="onIntersection($event)">
+        I'm being observed
+    </div>
+</section>
+```
+
+Observing elements intersecting with parent element,
+each having different configuration hence using individual observers:
+
+```html
+<section waIntersectionRoot>
+    <div
+        waIntersectionObserver
+        waIntersectionThreshold="0.5"
+        (waIntersectionObservee)="onIntersection($event)"
+    >
+        I'm being observed
+    </div>
+    <div
+        waIntersectionObserver
+        waIntersectionThreshold="1,0.5,0"
+        (waIntersectionObservee)="onIntersection($event)"
+    >
+        I'm being observed
+    </div>
+</section>
+```
 
 ## Services
 
@@ -83,6 +95,10 @@ Alternatively you can use `Observable`-based services:
             provide: INTERSECTION_THRESHOLD,
             useValue: 0.5,
         },
+        {
+            provide: INTERSECTION_ROOT_MARGIN,
+            useValue: '10px',
+        },
     ],
 })
 export class MyComponent {
@@ -90,14 +106,15 @@ export class MyComponent {
         @Inject(IntersectionObserverService) entries$: IntersectionObserverService,
     ) {
         entries$.subscribe(entries => {
-            // This will trigger once my-component becomes half way visible
-            // in parent element designated with waIntersectionRoot directive
             // Don't forget to unsubscribe
             console.log(entries);
         });
     }
 }
 ```
+
+> In this case provide `INTERSECTION_ROOT` up the DI tree if you
+> want to observe intersection with a particular parent element
 
 ## Browser support
 

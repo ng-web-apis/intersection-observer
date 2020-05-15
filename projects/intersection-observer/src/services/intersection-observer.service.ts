@@ -15,14 +15,12 @@ export class IntersectionObserverService extends Observable<IntersectionObserver
         @Inject(INTERSECTION_THRESHOLD) threshold: number | number[],
         @Optional() @Inject(INTERSECTION_ROOT) root: ElementRef<Element> | null,
     ) {
-        let observer: IntersectionObserver;
-
         super(subscriber => {
             if (!support) {
                 subscriber.error('IntersectionObserver is not supported in your browser');
             }
 
-            observer = new IntersectionObserver(
+            const observer = new IntersectionObserver(
                 entries => {
                     subscriber.next(entries);
                 },
@@ -32,6 +30,7 @@ export class IntersectionObserverService extends Observable<IntersectionObserver
                     threshold,
                 },
             );
+
             observer.observe(nativeElement);
 
             return () => {
