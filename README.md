@@ -28,16 +28,13 @@ npm i @ng-web-apis/intersection-observer
 
 ## Usage
 
-1. _Optional:_ provide root element with `waIntersectionRoot`.
-2. Create observer with `waIntersectionnObserver` directive
-3. Use `waIntersectionThreshold` and `waIntersectionRootMargin` attributes to configure
+1. Create [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver) with `waIntersectionObserver` directive
+2. Observe elements with `waIntersectionObservee` directive
+3. _Optional:_ provide root element with `waIntersectionRoot` directive and
+   use `waIntersectionThreshold` and `waIntersectionRootMargin` attributes to configure
    [IntersectionObserver options](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver)
 
-    > **NOTE:** Keep in mind these are used one time in constructor so you cannot use binding, only strings. Pass coma separated numbers to set an array of thresholds.
-
-4. Observe elements with `waIntersectionObservee` directive
-
-> You can put directives on the same element, see examples below
+    > **NOTE:** Keep in mind these are used one time in constructor so you cannot use binding, only strings. Pass comma separated numbers to set an array of thresholds..
 
 ## Examples
 
@@ -55,7 +52,7 @@ Observing multiple elements intersecting with viewport using single observer
 ```
 
 Observing elements intersecting with parent element,
-each having different configuration hence using individual observers:
+each having different configuration therefore using individual observers:
 
 ```html
 <section waIntersectionRoot>
