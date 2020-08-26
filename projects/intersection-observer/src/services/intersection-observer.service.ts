@@ -18,6 +18,8 @@ export class IntersectionObserverService extends Observable<IntersectionObserver
         super(subscriber => {
             if (!support) {
                 subscriber.error('IntersectionObserver is not supported in your browser');
+
+                return;
             }
 
             const observer = new IntersectionObserver(
