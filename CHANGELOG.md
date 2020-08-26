@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.1](https://github.com/ng-web-apis/intersection-observer/compare/v2.0.0...v2.0.1) (2020-08-26)
+
+
+### Bug Fixes
+
+* **service:** fix exception in Internet Explorer ([5f28df4](https://github.com/ng-web-apis/intersection-observer/commit/5f28df4))
+
 ## [2.0.0](https://github.com/ng-web-apis/intersection-observer/compare/v1.1.3...v2.0.0) (2020-05-15)
 
 ### Features
