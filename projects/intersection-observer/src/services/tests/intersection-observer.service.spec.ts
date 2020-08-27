@@ -1,3 +1,4 @@
+import {take} from 'rxjs/operators';
 import {IntersectionObserverService} from '../intersection-observer.service';
 
 describe('IntersectionObserverService', () => {
@@ -17,7 +18,7 @@ describe('IntersectionObserverService', () => {
             },
         );
 
-        service.subscribe({
+        service.pipe(take(1)).subscribe({
             next: () => {
                 called = true;
             },
