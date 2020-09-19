@@ -12,6 +12,7 @@ import {thresholdFactory} from '../utils/threshold-factory';
 
 @Directive({
     selector: '[waIntersectionObserver]',
+    exportAs: 'IntersectionObserver',
 })
 export class IntersectionObserverDirective extends IntersectionObserver
     implements OnDestroy {
