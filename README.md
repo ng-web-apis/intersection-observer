@@ -121,6 +121,11 @@ export class MyComponent {
 
 > You can use [polyfill](https://www.npmjs.com/package/intersection-observer) to support older browsers
 
+## Angular Universal
+
+If you want to use this package with SSR, you need to mock `IntersectionObserver` class on the server. 
+You can use our Universal package for this, see [this example](https://github.com/ng-web-apis/universal#mocks).
+
 ## Demo
 
 You can [try online demo here](https://ng-web-apis.github.io/intersection-observer)
