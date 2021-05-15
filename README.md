@@ -4,7 +4,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@ng-web-apis/intersection-observer.svg)](https://npmjs.com/package/@ng-web-apis/intersection-observer)
 [![npm bundle size](https://img.shields.io/bundlephobia/minzip/@ng-web-apis/intersection-observer)](https://bundlephobia.com/result?p=@ng-web-apis/intersection-observer)
-[![Travis (.com)](https://img.shields.io/travis/com/ng-web-apis/intersection-observer)](https://travis-ci.com/ng-web-apis/intersection-observer)
+[![.github/workflows/ci.yml](https://github.com/ng-web-apis/intersection-observer/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/ng-web-apis/intersection-observer/actions/workflows/ci.yml)
 [![Coveralls github](https://img.shields.io/coveralls/github/ng-web-apis/intersection-observer)](https://coveralls.io/github/ng-web-apis/intersection-observer?branch=master)
 [![angular-open-source-starter](https://img.shields.io/badge/made%20with-angular--open--source--starter-d81676?logo=angular)](https://github.com/TinkoffCreditSystems/angular-open-source-starter)
 
