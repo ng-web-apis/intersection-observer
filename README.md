@@ -28,9 +28,10 @@ npm i @ng-web-apis/intersection-observer
 
 ## Usage
 
-1. Create [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver) with `waIntersectionObserver` directive
-2. Observe elements with `waIntersectionObservee` directive
-3. _Optional:_ provide root element with `waIntersectionRoot` directive and
+1. Import `IntersectionObserverModule` for directives to work
+2. Create [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver) with `waIntersectionObserver` directive
+3. Observe elements with `waIntersectionObservee` directive
+4. _Optional:_ provide root element with `waIntersectionRoot` directive and
    use `waIntersectionThreshold` and `waIntersectionRootMargin` attributes to configure
    [IntersectionObserver options](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver)
 
