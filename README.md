@@ -39,12 +39,14 @@ npm i @ng-web-apis/intersection-observer
 
 ### Usage with Jest
 
-DOM environment provided by Jest does not emulate IntersectionObserver api's and need to be mocked. You can add the following line to your `setup.ts`:
+DOM environment provided by Jest does not emulate IntersectionObserver API and need to be mocked. You can add the following line to your `setup.ts`:
 
 ```ts
 // setup.ts
 import '@ng-web-apis/universal/mocks';
 ```
+
+to use mocks from [@ng-web-apis/universal](https://github.com/ng-web-apis/universal) package.
 
 ## Examples
 
