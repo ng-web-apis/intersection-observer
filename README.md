@@ -35,7 +35,16 @@ npm i @ng-web-apis/intersection-observer
    use `waIntersectionThreshold` and `waIntersectionRootMargin` attributes to configure
    [IntersectionObserver options](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver)
 
-    > **NOTE:** Keep in mind these are used one time in constructor so you cannot use binding, only strings. Pass comma separated numbers to set an array of thresholds..
+    > **NOTE:** Keep in mind these are used one time in constructor so you cannot use binding, only strings. Pass comma separated numbers to set an array of thresholds.
+
+### Usage with Jest
+
+DOM environment provided by Jest does not emulate IntersectionObserver api's and need to be mocked. You can add the following line to your `setup.ts`:
+
+```ts
+// setup.ts
+import '@ng-web-apis/universal/mocks';
+```
 
 ## Examples
 
@@ -124,7 +133,7 @@ export class MyComponent {
 
 ## Angular Universal
 
-If you want to use this package with SSR, you need to mock `IntersectionObserver` class on the server. 
+If you want to use this package with SSR, you need to mock `IntersectionObserver` class on the server.
 You can use our Universal package for this, see [this example](https://github.com/ng-web-apis/universal#mocks).
 
 ## Demo
