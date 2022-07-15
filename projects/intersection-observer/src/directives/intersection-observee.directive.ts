@@ -1,8 +1,8 @@
 import {Directive, Inject} from '@angular/core';
 import {Observable} from 'rxjs';
+
 import {IntersectionObserveeService} from '../services/intersection-observee.service';
 
-// @dynamic
 @Directive({
     selector: '[waIntersectionObservee]',
     outputs: ['waIntersectionObservee'],
