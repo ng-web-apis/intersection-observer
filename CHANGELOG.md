@@ -8,10 +8,6 @@ All notable changes to this project will be documented in this file. See
 ### ⚠ BREAKING CHANGES
 
 - update to Angular 12 and Ivy distribution
-
-### Features
-
-- update to Angular 12 and Ivy distribution
   ([90e166b](https://github.com/ng-web-apis/intersection-observer/commit/90e166b7404f2e6edac8713dfbb56cd344e861f7))
 
 ## [2.1.0](https://github.com/ng-web-apis/intersection-observer/compare/v2.0.1...v2.1.0) (2020-09-19)
