@@ -1,6 +1,6 @@
 {
     "name": "@ng-web-apis/intersection-observer",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "description": "A library for declarative use of Intersection Observer API with Angular",
     "keywords": [
         "angular",
@@ -28,6 +28,7 @@
         "build:ssr": "ng build && ng run demo:server",
         "prerender": "ng run demo:prerender",
         "build": "ng build",
+        "postbuild": "node scripts/postbuild.js",
         "test": "ng test",
         "stylelint": "stylelint '**/*.{less,css}'",
         "lint": "eslint --cache --cache-location node_modules/.cache/eslint",
